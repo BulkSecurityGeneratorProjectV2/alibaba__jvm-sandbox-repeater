@@ -3,6 +3,7 @@ package com.alibaba.jvm.sandbox.repeater.module.impl;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.nio.file.Files;
 import java.util.Arrays;
 import java.util.List;
 
@@ -78,7 +79,7 @@ public class JarFileLifeCycleManager implements LifecycleManager {
             for (File jarFile : files) {
                 if (isJar(jarFile)) {
                     try {
-                        File tempFile = File.createTempFile("repeater_plugin", ".jar");
+                        File tempFile = Files.createTempFile("repeater_plugin", ".jar").toFile();
                         tempFile.deleteOnExit();
                         FileUtils.copyFile(jarFile, tempFile);
                         jarPaths.add(new URL("file:" + tempFile.getPath()));
@@ -91,7 +92,7 @@ public class JarFileLifeCycleManager implements LifecycleManager {
             }
         } else if (isJar(file)) {
             try {
-                File tempFile = File.createTempFile("repeater_plugin", ".jar");
+                File tempFile = Files.createTempFile("repeater_plugin", ".jar").toFile();
                 FileUtils.copyFile(file, tempFile);
                 jarPaths.add(new URL("file:" + tempFile.getPath()));
             } catch (IOException e) {
